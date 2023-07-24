@@ -1,4 +1,4 @@
-This Python script to generate markdown file with metadata header from configuration file.
+This a Python script to generate markdown file with metadata header from configuration file `.ini`.
 
 **Features:**
 - Basic metadata title and date
