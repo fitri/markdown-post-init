@@ -15,14 +15,18 @@ def slugify(title: str):
     return slug 
 
 def config_parser(config_file:str, data:dict):
-    # Read config ini file and convert into dict 
-    config = configparser.ConfigParser()
-    config.read(config_file)
+    if config_file == "":
+        pass
+    
+    else:
+        # Read config ini file and convert into dict 
+        config = configparser.ConfigParser()
+        config.read(config_file)
 
-    #Loop through each key-value pair in the section and add it to the dictionary
-    for section in config.sections():
-        for key, value in config[section].items():
-            data[key] = value
+        #Loop through each key-value pair in the section and add it to the dictionary
+        for section in config.sections():
+            for key, value in config[section].items():
+                data[key] = value
 
 def arg_parser(data: dict):
     # Initiate parser object
@@ -41,13 +45,25 @@ def arg_parser(data: dict):
             data[key] = value
             print(f"Updated {key} to {value}")
 
+def config_path():
+    # Check if current config.ini exist in cwd
+    pwd_path = ("config.ini")
+
+    if os.path.exists(pwd_path) == True:
+        print("Using configuration config.ini from current path")
+        return pwd_path
+    
+    else:
+        print("Configuration config.ini not in current dir, skip")
+        return ""
+    
 def save_to_file(filename:str, data: dict):
     # Initialize empty content string
     content = ""
 
     for key, value in data.items():
         # Append each key value to content
-        content = f"{content}\n{key}: {value}"
+        content = f"{content}{key}: {value}\n"
 
     # Open and write up the file
     with open(filename, 'w') as file:
@@ -61,7 +77,7 @@ def main():
     }
 
     # Update the dict with options metadata
-    config_parser('config.ini', main_dict)
+    config_parser(config_path(), main_dict)
 
     # Argparser for replacing default value
     arg_parser(main_dict)
@@ -72,7 +88,7 @@ def main():
         while main_dict[key] == "":
             main_dict[key] = input(f"Enter {key} for this post: ")
             if main_dict[key] == "":
-                print(f"Input for {key} can't be empty")
+                print(f"Input for {key} can't be empty no default set in config.ini or commandline")
 
     # Create the output markdown file
     filename = f"{slugify(main_dict['title'])}.md"
