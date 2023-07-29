@@ -21,6 +21,7 @@ def config_parser(config_file:str, data:dict):
     else:
         # Read config ini file and convert into dict 
         config = configparser.ConfigParser()
+        config.optionxform = str
         config.read(config_file)
 
         #Loop through each key-value pair in the section and add it to the dictionary
