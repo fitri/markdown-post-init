@@ -58,12 +58,14 @@ def config_path():
         return ""
     
 def save_to_file(filename:str, data: dict):
-    # Initialize empty content string
-    content = ""
+    # Initialize metadata content with opening hypens
+    content = "---\n"
 
     for key, value in data.items():
         # Append each key value to content
-        content = f"---\n{content}{key}: {value}\n---\n\nStart content here.."
+        content = f"{content}{key}: {value}\n"
+
+    content = f"{content}---\n\nStart writing here.."
 
     # Open and write up the file
     with open(filename, 'w') as file:
