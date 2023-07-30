@@ -94,7 +94,7 @@ def main():
                 print(f"Input for {key} can't be empty no default set in config.ini or commandline")
 
     # Create the output markdown file
-    filename = f"{slugify(main_dict['title'])}.md"
+    filename = f"{main_dict['date']}-{slugify(main_dict['title'])}.md"
 
     save_to_file(filename, main_dict)
 
